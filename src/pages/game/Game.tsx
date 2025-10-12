@@ -1,3 +1,4 @@
+import { Peer } from "@/widgets/peer";
 import { Peers } from "@/widgets/peers";
 
 export function Game() {
@@ -6,7 +7,10 @@ export function Game() {
       <div className="w-full h-full flex-1">
         playground
       </div>
-      <Peers />
+      <div className="w-sm h-full relative overflow-hidden">
+        <Peers />
+        <Peer />
+      </div>
     </div>
   );
 }
