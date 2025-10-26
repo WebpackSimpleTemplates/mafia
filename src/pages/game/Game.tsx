@@ -1,15 +1,44 @@
-import { Peer } from "@/widgets/peer";
-import { Peers } from "@/widgets/peers";
+import { NightBg } from "@/entities/night-status";
+import { JoinGame } from "@/features/join-game";
+import { statusSelector } from "@/shared/store";
+import { Actions } from "@/widgets/actions";
+import { Gamers } from "@/widgets/gamers";
+import { Hint } from "@/widgets/hist";
+import { useSelector } from "react-redux";
+import { Link } from "react-router";
 
 export function Game() {
-  return (
-    <div className="flex flex-row w-full h-full">
-      <div className="w-full h-full flex-1">
-        playground
+  const status = useSelector(statusSelector);
+
+  if (status === 'not-found') {
+    return (
+      <div className="w-full h-full flex flex-col items-center justify-center gap-3">
+        Город не найден
+        <Link to="/" className="btn">
+          На главную
+        </Link>
       </div>
-      <div className="w-sm h-full relative overflow-hidden">
-        <Peers />
-        <Peer />
+    );
+  }
+
+  if (status === 'empty') {
+    return (
+      <div className="w-full h-full flex flex-col items-center justify-center gap-3">
+        Город пуст
+        <JoinGame />
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full h-full relative overflow-auto">
+      <NightBg />
+      <Gamers />
+      <div className="absolute bottom-0 right-0 w-full flex flex-col items-center gap-2 mb-4 justify-center">
+        <Hint />
+        <div className="w-max mx-auto flex flex-row items-center gap-2">
+          <Actions />
+        </div>
       </div>
     </div>
   );

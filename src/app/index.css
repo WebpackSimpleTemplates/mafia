@@ -4,6 +4,8 @@
   themes: abyss --default, abyss --prefersdark;
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 html, body, #root {
   width: 100%;
   height: 100%;
@@ -17,4 +19,8 @@ html, body, #root {
   --color-base-content: white;
   --color-primary: oklch(63% 0.237 25.331);
   --color-primary-content: oklch(14% 0.005 285.823);
+}
+
+img {
+  user-select: none;
 }

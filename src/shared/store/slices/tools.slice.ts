@@ -1,18 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  toSpeaker: false,
+  toAccent: false,
+}
+
 export const toolsSlice = createSlice({
   name: 'tools',
-  initialState: {
-    opennedPeerId: null as number,
-  },
+  initialState,
   reducers: {
-    openPeer(state, { payload }: { payload: number }) {
-      state.opennedPeerId = payload;
+    enableToSpeaker() {
+      return {
+        ...initialState,
+        toSpeaker: true,
+      }
     },
-    closePeer(state) {
-      state.opennedPeerId = null;
-    }
+    enableToAccent() {
+      return {
+        ...initialState,
+        toAccent: true,
+      }
+    },
+    disableAllActions() {
+      return initialState;
+    },
   },
 });
 
-export const { openPeer, closePeer } = toolsSlice.actions;
+export const { enableToSpeaker, enableToAccent, disableAllActions } = toolsSlice.actions;

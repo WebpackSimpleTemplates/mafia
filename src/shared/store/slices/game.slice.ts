@@ -1,19 +1,43 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { Peer } from "../types";
-import { faker } from "@faker-js/faker";
+import type { User } from "../types";
 
-const peersSource = new Array(30).fill(null).map((_, id) => ({
-  id,
-  name: faker.person.fullName(),
-  avatar: faker.image.avatar(),
-}));
+export type GameState = {
+  id: number,
+  gamers: User[],
+  masterId: number,
+  isRecruipmenting: boolean,
+  isNight: boolean,
+  speakerId: number,
+  accentId: number,
+  isFreeSpeech: boolean,
+};
 
 export const gameSlice = createSlice({
   name: 'game',
-  initialState: {
-    peers: peersSource as Peer[],
+  initialState: {} as GameState,
+  reducers: {
+    setGame(_, { payload }: { payload: GameState }) {
+      return payload || {} as GameState;
+    },
+    setAccent(state, { payload }: { payload: number }) {
+      state.accentId = payload;
+    },
+    setSpeaker(state, { payload }: { payload: number }) {
+      state.speakerId = payload;
+      state.accentId = payload;
+      state.isFreeSpeech = false;
+    },
+    silence(state) {
+      state.accentId = null;
+      state.speakerId = null;
+      state.isFreeSpeech = false;
+    },
+    freeSpeech(state) {
+      state.accentId = null;
+      state.speakerId = null;
+      state.isFreeSpeech = true;
+    }
   },
-  reducers: {},
 });
 
-export const {} = gameSlice.actions;
+export const { setGame, setAccent, setSpeaker, silence, freeSpeech } = gameSlice.actions;
