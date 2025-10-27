@@ -9,18 +9,17 @@ import { useParams } from "react-router";
 export function Speaker() {
   const { gameId } = useParams();
   const active = useSelector(isToSpeakerSelector);
-  const speackerId = useSelector(speakerIdSelector);
   const dispatch: AppDispatch = useDispatch();
   const isNight = useSelector(isNightSelector);
 
-  if (active || speackerId) {
+  if (active) {
     return (
-      <div className="tooltip" data-tip={speackerId ? "Закончить интервью" : "Отмена"}>
+      <div className="tooltip" data-tip="Закончить интервью">
         <button
-          className="btn btn-lg btn-square"
+          className="btn btn-lg btn-square btn-primary"
           onClick={() => {
-            dispatch(silence());
             dispatch(disableAllActions());
+            dispatch(silence());
             axios.post(`/api/games/${gameId}/silence`);
           }}
         >
@@ -31,13 +30,12 @@ export function Speaker() {
   }
 
   return (
-    <div className="tooltip" data-tip="Интервью. Дать слово жителю">
+    <div className="tooltip" data-tip="Начать интервью">
       <button
         disabled={isNight}
         className="btn btn-lg btn-square"
         onClick={() => {
           dispatch(enableToSpeaker());
-          dispatch(silence());
           axios.post(`/api/games/${gameId}/silence`);
         }}
       >

@@ -31,7 +31,7 @@ export function Actions() {
         <Night />
         {!isNight && (
           <>
-            {/* <Speaker /> */}
+            <Speaker />
             <FreeSpeech />
             <Dead />
           </>

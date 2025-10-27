@@ -1,12 +1,13 @@
-import { isNightSelector, useGameAction } from "@/shared/store";
+import { disableAllActions, isNightSelector, useGameAction, type AppDispatch } from "@/shared/store";
 import { Button } from "@/shared/ui/button";
 import axios from "axios";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export function Night() {
   const isNight = useSelector(isNightSelector);
   const [pending, startTransition] = useGameAction();
+  const dispatch: AppDispatch = useDispatch();
 
   if (isNight) {
     return (
@@ -30,6 +31,7 @@ export function Night() {
         pending={pending}
         className="btn btn-square btn-lg"
         onClick={() => startTransition(async (gameId) => {
+          dispatch(disableAllActions());
           await axios.post(`/api/games/${gameId}/night`);
         })}
       >

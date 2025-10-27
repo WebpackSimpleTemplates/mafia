@@ -28,7 +28,7 @@ export function FreeSpeech() {
   }
 
   return (
-    <div className="tooltip" data-tip="Обсуждение. Дать слово всем жителям города">
+    <div className="tooltip" data-tip="Начать обсуждение">
       <Button
         className="btn btn-lg btn-square"
         onClick={() => {          
