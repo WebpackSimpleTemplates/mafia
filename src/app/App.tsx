@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 import { Main } from '@/pages/main/Main';
 import { Layout } from '@/widgets/layout';
 import { use } from 'react';
+import { ToastContainer } from 'react-toastify';
 
 import axios from 'axios';
 import { getGameState } from '@/shared/api';
@@ -56,6 +57,7 @@ export function App() {
 
   return (
     <Provider store={store}>
+      <ToastContainer />
       <RouterProvider router={router} />
     </Provider>
   );

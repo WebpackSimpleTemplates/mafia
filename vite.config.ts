@@ -18,6 +18,11 @@ export default defineConfig({
     proxy: {
       "/api": "http://localhost:8000",
       "/uploads": "http://localhost:8000",
+      "/webrtc": "http://127.0.0.1:56526",
+      '/ws': {
+        target: 'http://127.0.0.1:3240',
+        ws: true
+      }
     }
   }
 })

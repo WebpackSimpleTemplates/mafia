@@ -1,61 +1,56 @@
-import { gamerSelector, isFreeSpeechSelector, userIdSelector, type AppDispatch, speakerIdSelector, setSpeaker, silence, masterIdSelector } from "@/shared/store"
-import { isToSpeakerSelector } from "@/shared/store/selectors/tools.selectors";
-import axios from "axios";
-import { PiMicrophoneStageFill } from "react-icons/pi";
-import { useDispatch, useSelector } from "react-redux"
+import { gamerSelector, userIdSelector } from "@/shared/store";
+import { useSelector } from "react-redux"
+import { useTransport } from "./media/useTransport";
+import { useMediaTags } from "./media/useMediaTags";
 import { useParams } from "react-router";
+import { Video } from "./components/Video";
+import { Audio } from "./components/Audio";
+import { BiMicrophoneOff } from "react-icons/bi";
 
-export function Gamer({ id, className, bigAvatar, withoutActions }: { id: number, className: string, bigAvatar?: boolean, withoutActions?: boolean }) {
-  const { gameId } = useParams();
-  const masterId = useSelector(masterIdSelector);
+export function Gamer({ id, className, bigAvatar }: { id: number, className: string, bigAvatar?: boolean }) {
   const gamer = useSelector(gamerSelector(id));
+  const { gameId } = useParams();
   const userId = useSelector(userIdSelector);
-  const isFreeSpeech = useSelector(isFreeSpeechSelector);
-  const speackerId = useSelector(speakerIdSelector);
-  const dispatch: AppDispatch = useDispatch();
-  const isToSpeaker = useSelector(isToSpeakerSelector);
 
-  const isMaster = masterId === gamer.id;
+  const peerId = gameId + '_' + gamer.id;
+  const subscriberId = peerId + '_' + userId;
+
+  const createConsumer = useTransport(subscriberId);
+
+  const mediaTags = useMediaTags(peerId, subscriberId);
 
   return (
     <div 
       className={
-        "card bg-base-200 flex items-center transition-all justify-center relative text-xs "
+        "card bg-base-200 flex items-center transition-all justify-center relative overflow-hidden "
         + className
-        + (withoutActions ? '' : ' cursor-pointer hover:opacity-85')
       }
-      onClick={() => {
-        if (withoutActions) {
-          return;
-        }
-
-        if (isToSpeaker && speackerId === id) {
-          dispatch(silence());
-          axios.post(`/api/games/${gameId}/silence`);
-        }
-        if (isToSpeaker && speackerId !== id) {
-          dispatch(setSpeaker(id));
-          axios.post(`/api/games/${gameId}/speaker/${id}`);
-        }
-      }}
     >
-      <img
-        src={gamer.avatar}
-        className={"rounded-full object-center object-cover" + (bigAvatar ? ' h-40 w-40' : ' h-20 w-20')}
-      />
-      {isMaster && (
-        <div className="absolute left-2 top-2 text-yellow-500">
-          Ведущий
-        </div>
+      {mediaTags.includes('cam-audio') && userId !== id && (
+        <Audio createConsumer={createConsumer} peerId={peerId} tag="cam-audio" />
       )}
-      <div className="absolute right-2 top-2">
+      {!mediaTags.includes('cam-audio') && (
+        <div className="absolute left-0 bottom-0 h-4 w-4 rounded-sm bg-black/70 text-xs flex justify-center items-center text-error">
+          <BiMicrophoneOff/>
+        </div> 
+      )}
+      <div className="absolute right-0 top-0 px-2 py-1 rounded-sm bg-black/70 text-xs">
         {userId === id && <>Вы</>}
         {userId !== id && gamer.username}
       </div>
-      {(speackerId === id || isFreeSpeech || isMaster) && (
-        <div className={"absolute left-2 bottom-2" + (isMaster ? ' text-yellow-500' : '')}>
-          <PiMicrophoneStageFill />
-        </div>
+      {!mediaTags.includes("cam-video") && (
+        <img
+          src={gamer.avatar}
+          className={"rounded-full object-center object-cover" + (bigAvatar ? ' h-40 w-40' : ' h-18 w-18')}
+        />
+      )}
+      {mediaTags.includes("cam-video") && (
+        <Video
+          createConsumer={createConsumer}
+          peerId={peerId}
+          tag="cam-video"
+          className="w-full h-full object-cover object-center"
+        />
       )}
     </div>
   )

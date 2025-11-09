@@ -9,10 +9,10 @@ export function Layout() {
 
   return (
     <main className="flex flex-col w-full h-full">
-      <header className="flex flex-row justify-between items-center w-full py-3 px-7 bg-base-300">
-        <Link to="/">
+      <header className="flex flex-row justify-between items-center w-full py-3 px-7 bg-base-100">
+        <a href="https://alphamatica.ru/">
           <img src="/logo.svg" className="h-7" />
-        </Link>
+        </a>
         {!userId && <Login />}
         {!!userId && <Profile />}
       </header>
@@ -21,4 +21,4 @@ export function Layout() {
       </div>
     </main>
   );
-}
+}   
