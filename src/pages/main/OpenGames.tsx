@@ -41,7 +41,7 @@ export function OpenGames() {
                 {dayjs(item.start).format('HH:mm')}
               </div>
             )}
-            <div className="flex flex-row justify-end flex-1">
+            <div className="flex flex-row items-center justify-end flex-1">
               {item.master.username}
               <img
                 src={item.master.avatar}

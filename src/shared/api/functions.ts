@@ -14,7 +14,7 @@ export const getProducers = (peerId: string) => (
     .catch(() => [] as string[])
 );
 
-const fakeGame = () => {
+export const getOpenGames = async (): Promise<OpenGame[]> => new Array(Math.random() * 10 + 5 >> 0).fill(null).map(() => {
   const maxGamers = Math.random() * 22 + 8 >> 0; 
 
   return ({
@@ -29,6 +29,27 @@ const fakeGame = () => {
     },
     gamersNames: new Array(Math.random() * (maxGamers - 1) >> 0).fill(null).map(() => faker.internet.username()),
   } as OpenGame);
-}
+});
 
-export const getOpenGames = async (): Promise<OpenGame[]> => new Array(Math.random() * 10 + 5 >> 0).fill(null).map(() => fakeGame());
+export const getCurrentGames = async () => [
+  {
+    id: Math.random() * 1000 >> 0,
+    title: faker.book.title(),
+    status: ['noready', 'started', 'closed'][Math.random() * 3 >> 0],
+    master: {
+      id: Math.random() * 1000 >> 0,
+      username: faker.internet.username(),
+      avatar: faker.image.avatar(),
+    },
+  },
+  {
+    id: Math.random() * 1000 >> 0,
+    title: faker.book.title(),
+    status: ['noready', 'started', 'closed'][Math.random() * 3 >> 0],
+    master: {
+      id: Math.random() * 1000 >> 0,
+      username: faker.internet.username(),
+      avatar: faker.image.avatar(),
+    },
+  },
+]
