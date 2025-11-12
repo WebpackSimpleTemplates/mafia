@@ -11,9 +11,6 @@ export function Main() {
             Новая игра
           </div>
           <CreateGame />
-        <div className="text-xs text-gray-500 mt-2">
-          Создав игру Вы сразу станете её ведущим
-        </div>
         </div>
         <div className="card bg-base-100 p-3 mt-6">
           <div className="text-xl font-semibold mb-1">

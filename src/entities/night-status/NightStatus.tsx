@@ -21,7 +21,7 @@ export function NightBg() {
 
   return (
     <>
-      <div className="absolute left-0 top-0 w-full h-full bg-base-100 -z-1">
+      <div className="absolute left-0 top-0 w-full h-full bg-base-100">
       </div>
       <div className="z-10 relative p-3 w-max mx-auto flex flex-row items-center justify-center gap-2">
         <MdLightMode size={30} />
